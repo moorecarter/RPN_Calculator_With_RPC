@@ -11,9 +11,8 @@ enum opcode {Add, Sub, Mult, Div};
 
 class RPNStack{
     private:
-        static const int SIZE = 4; 
-        int length;
-        float data[SIZE];
+        class RPNImpl;
+        std::unique_ptr<RPNImpl> pImpl;
     public:
         RPNStack();
         bool RPNPush(float value);
