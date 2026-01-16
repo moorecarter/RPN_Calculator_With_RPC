@@ -11,29 +11,29 @@ CXX=c++ -I /usr/local/include
 LDFLAGS=-lprotobuf  -pthread
 endif
 
-SERVER_OBJS=server_main.o kv.o KVServerStub.o E477KV.pb.o
-CLIENT_OBJS=client_main.o kvClientStub.o E477KV.pb.o KVImplNet.o
-SINGLE_OBJS=client_main.o kv.o
+SERVER_OBJS=server_main.o RPN.o server_stub.o RPN.pb.o
+CLIENT_OBJS=client_main.o client_stub.o RPN.pb.o RPNImplNet.o
+SINGLE_OBJS=client_main.o RPN.o
 
-all: bin/kvServerClassProto bin/kvClientClassProto bin/kvSingleClassProto
+all: bin/RPNServerClassProto bin/RPNClientClassProto bin/RPNSingleClassProto
 
-bin/kvSingleClassProto:  $(SINGLE_OBJS)
-	$(CXX) -g -o bin/kvSingleClassProto $(SINGLE_OBJS) $(LDFLAGS)
-bin/kvServerClassProto:  $(SERVER_OBJS)
-	$(CXX) -g -o bin/kvServerClassProto $(SERVER_OBJS) $(LDFLAGS)
-bin/kvClientClassProto:  $(CLIENT_OBJS)
-	$(CXX) -g -o bin/kvClientClassProto $(CLIENT_OBJS) $(LDFLAGS)
+bin/RPNSingleClassProto:  $(SINGLE_OBJS)
+	$(CXX) -g -o bin/RPNSingleClassProto $(SINGLE_OBJS) $(LDFLAGS)
+bin/RPNServerClassProto:  $(SERVER_OBJS)
+	$(CXX) -g -o bin/RPNServerClassProto $(SERVER_OBJS) $(LDFLAGS)
+bin/RPNClientClassProto:  $(CLIENT_OBJS)
+	$(CXX) -g -o bin/RPNClientClassProto $(CLIENT_OBJS) $(LDFLAGS)
 	
-server_main.o:  KVServerStub.hpp E477KV.pb.h
-serverStub.o:  kv.hpp E477KV.pb.h
-client_main.o:  kv.hpp
-kv.o: kv.hpp
-kvClientStub.o: kv.hpp E477KV.pb.h
-KVServerStub.o: kv.hpp E477KV.pb.h KVServerStub.hpp
+server_main.o:  server_stub.hpp RPN.pb.h
+server_stub.o:  RPN.hpp RPN.pb.h
+client_main.o:  RPN.hpp
+RPN.o: RPN.hpp
+client_stub.o: RPN.hpp RPN.pb.h
+server_stub.o: RPN.hpp RPN.pb.h server_stub.hpp
 
 
-E477KV.pb.h E477KV.pb.cc: E477KV.proto
-	protoc --cpp_out=. E477KV.proto
+RPN.pb.h RPN.pb.cc: RPN.proto
+	protoc --cpp_out=. RPN.proto
 	
 clean:
-	rm bin/* *.o  E477KV.pb.h E477KV.pb.cc
+	rm bin/* *.o  RPN.pb.h RPN.pb.cc
