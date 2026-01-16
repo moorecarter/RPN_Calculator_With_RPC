@@ -26,7 +26,8 @@
 
 #include <arpa/inet.h>
 #include <sys/socket.h>
-
+#include <memory>
+#include <string>
 #include "RPN.hpp"
 #include "RPNMessage.pb.h"
 
@@ -65,7 +66,7 @@ private:
     void callMethodVersion1(RPNMessage::RPNMessageReq &receivedMsg, RPNMessage::RPNMessageResp &replyMsg);
     
     bool alive = false;
-    RPNStack RPNStore;
+    std::unique_ptr<RPNStack> RPNStore;
 
     // network management
     int sockfd;

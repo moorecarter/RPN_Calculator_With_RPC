@@ -6,7 +6,7 @@ syntax = "proto3";
 
 package RPNMessage;
 
-enum Operator {Add = 0; Sub = 1; Mult = 2; Div = 3;}
+enum Operator {NOP = 0; Add = 1; Sub = 2; Mult = 3; Div = 4;}
 
 message RPNMessageReq {
     uint32 magic = 1;

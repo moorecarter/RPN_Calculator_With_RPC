@@ -20,7 +20,7 @@ bool RPNStack::RPNPush(float value) {
   return true;
 }
 
-RPNValueResult RPNStack::RPNPop() {
+RPNStack::RPNValueResult RPNStack::RPNPop() {
   if (pImpl->length == 0) {
     return {false, 0.0};
   }
@@ -32,7 +32,7 @@ RPNValueResult RPNStack::RPNPop() {
   return {true, retData};
 }
 
-RPNValueResult RPNStack::RPNRead() {
+RPNStack::RPNValueResult RPNStack::RPNRead() {
   if (pImpl->length == 0) {
     return {false, 0.0};
   }
@@ -46,12 +46,12 @@ bool RPNStack::RPNSwap() {
   return true;
 }
 
-RPNValueResult RPNStack::operation(int op) {
-  RPNValueResult res1 = RPNStack::RPNPop();
+RPNStack::RPNValueResult RPNStack::operation(opcode op) {
+  RPNStack::RPNValueResult res1 = RPNStack::RPNPop();
   if (!res1.status) {
     return {false, 0.0};
   }
-  RPNValueResult res2 = RPNStack::RPNPop();
+  RPNStack::RPNValueResult res2 = RPNStack::RPNPop();
   if (!res2.status) {
     return {false, 0.0};
   }
@@ -84,48 +84,48 @@ void RPNStack::RPNPrintData() {
   std::cout << pImpl->data[pImpl->SIZE - 1] << std::endl;
 }
 
-RPNValueResult RPNStack::add() {
-  RPNValueResult res1 = RPNStack::RPNPop();
+RPNStack::RPNValueResult RPNStack::add() {
+  RPNStack::RPNValueResult res1 = RPNStack::RPNPop();
   if (!res1.status) {
     return {false, 0.0};
   }
-  RPNValueResult res2 = RPNStack::RPNPop();
+  RPNStack::RPNValueResult res2 = RPNStack::RPNPop();
   if (!res2.status) {
     return {false, 0.0};
   }
   float ans = res2.value + res1.value;
   return {RPNStack::RPNPush(ans), ans};
 }
-RPNValueResult RPNStack::mult() {
-  RPNValueResult res1 = RPNStack::RPNPop();
+RPNStack::RPNValueResult RPNStack::mult() {
+  RPNStack::RPNValueResult res1 = RPNStack::RPNPop();
   if (!res1.status) {
     return {false, 0.0};
   }
-  RPNValueResult res2 = RPNStack::RPNPop();
+  RPNStack::RPNValueResult res2 = RPNStack::RPNPop();
   if (!res2.status) {
     return {false, 0.0};
   }
   float ans = res2.value * res1.value;
   return {RPNStack::RPNPush(ans), ans};
 }
-RPNValueResult RPNStack::sub() {
-  RPNValueResult res1 = RPNStack::RPNPop();
+RPNStack::RPNValueResult RPNStack::sub() {
+  RPNStack::RPNValueResult res1 = RPNStack::RPNPop();
   if (!res1.status) {
     return {false, 0.0};
   }
-  RPNValueResult res2 = RPNStack::RPNPop();
+  RPNStack::RPNValueResult res2 = RPNStack::RPNPop();
   if (!res2.status) {
     return {false, 0.0};
   }
   float ans = res2.value - res1.value;
   return {RPNStack::RPNPush(ans), ans};
 }
-RPNValueResult RPNStack::div() {
-  RPNValueResult res1 = RPNStack::RPNPop();
+RPNStack::RPNValueResult RPNStack::div() {
+  RPNStack::RPNValueResult res1 = RPNStack::RPNPop();
   if (!res1.status) {
     return {false, 0.0};
   }
-  RPNValueResult res2 = RPNStack::RPNPop();
+  RPNStack::RPNValueResult res2 = RPNStack::RPNPop();
   if (!res2.status) {
     return {false, 0.0};
   }

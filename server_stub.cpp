@@ -28,8 +28,6 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <atomic>
-
-
 #include "server_stub.hpp"
 
 #ifdef __APPLE__
@@ -141,8 +139,6 @@ void RPNServerStub::callMethodVersion1(RPNMessage::RPNMessageReq &receivedMsg, R
         }
         else if (receivedMsg.has_pop_req()){
             cerr << "pop message requested" << endl;
-
-            const RPNMessage::RPNMessageReq& popreq = receivedMsg.pop_req();            
             RPN::RPNValueResult popRes = RPNStore->RPNPop();
 
             RPNMessage::RPNPushResp *popresp = replyMsg.pop_resp();
@@ -152,7 +148,6 @@ void RPNServerStub::callMethodVersion1(RPNMessage::RPNMessageReq &receivedMsg, R
         else if (receivedMsg.has_read_req()){
             cerr << "read message requested" << endl;
 
-            const RPNMessage::RPNMessageReq& readreq = receivedMsg.read_req();            
             RPN::RPNValueResult readRes = RPNStore->RPNRead();
 
             RPNMessage::RPNPushResp *readresp = replyMsg.read_resp();
@@ -162,12 +157,14 @@ void RPNServerStub::callMethodVersion1(RPNMessage::RPNMessageReq &receivedMsg, R
         else if (receivedMsg.has_op_req()){
             cerr << "operator message requested" << endl;
 
-            const RPNMessage::RPNMessageReq& popreq = receivedMsg.op_req();            
-            RPN::RPNValueResult opRes = RPNStore->RPNRead();
+            const RPNMessage::RPNMessageReq& opreq = receivedMsg.op_req();   
+            const RPNMessage::Operator op = opreq.op();
+            // Not sure if this will translate
+            RPN::RPNValueResult opRes = RPNStore->operation(op);
 
-            RPNMessage::RPNPushResp *readresp = replyMsg.op_req();
-            readresp->set_status(readRes.status);
-            readresp->set_value(readRes.value);
+            RPNMessage::RPNPushResp *opresp = replyMsg.op_req();
+            opresp->set_status(opRes.status);
+            opresp->set_value(opRes.value);
         }
  
 }

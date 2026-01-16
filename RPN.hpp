@@ -3,7 +3,7 @@
 
 #include <memory>
 
-enum opcode {Add, Sub, Mult, Div};
+
 
 class RPNStack{
     private:
@@ -14,12 +14,13 @@ class RPNStack{
             bool status;
             float value;
         };
+        enum opcode {Nop, Add, Sub, Mult, Div};
         RPNStack();
         bool RPNPush(float value);
         RPNValueResult RPNPop();
         RPNValueResult RPNRead();
         bool RPNSwap();
-        RPNValueResult operation(int op);
+        RPNValueResult operation(opcode op);
         void RPNPrintData();
         //can later remove
         RPNValueResult add();
