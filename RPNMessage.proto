@@ -1,0 +1,74 @@
+// SHOULD WE COMPRESS THIS??? : "The request and response messages for xx and the request and response
+messages for x."
+
+
+syntax = "proto3";
+
+package RPNMessage;
+
+enum Operator {Add = 0; Sub = 1; Mult = 2; Div = 3;}
+
+message RPNMessageReq {
+    uint32 magic = 1;
+    uint32 version= 2;
+    uint32 serial = 3;
+
+    oneof RPNReq {
+        RPNPushReq push_req = 4;
+        RPNPopReq pop_req = 5;
+        RPNReadReq read_req = 6;
+        RPNOperatorReq op_req = 7;
+        RPNSwapReq swap_req = 8;
+    }
+};
+
+message RPNPushReq{
+    float value = 1;
+}
+
+message RPNReadReq {}
+
+message RPNPopReq{}
+
+message RPNOperatorReq {
+    Operator op = 1;
+}
+message RPNSwapReq {}
+
+
+message RPNMessageResp {
+    uint32 magic = 1;
+    uint32 version= 2;
+    uint32 serial = 3;
+
+    oneof RPNReq {
+        RPNPushResp push_resp = 4;
+        RPNPopResp pop_resp = 5;
+        RPNReadResp read_resp = 6;
+        RPNOperatorResp op_resp = 7;
+        RPNSwapResp swap_resp = 8;
+    }
+};
+
+
+message RPNPushResp{
+    bool status = 1;
+}
+
+message RPNReadResp {
+    bool status = 1;
+    float value = 2;
+}
+
+message RPNPopResp{
+    bool status = 1;
+    float value = 2;
+}
+
+message RPNOperatorResp {
+    bool status = 1;
+    float value = 2;
+}
+message RPNSwapResp {
+    bool status = 1;
+}
