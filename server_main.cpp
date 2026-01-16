@@ -1,8 +1,4 @@
-//+
-// File: kvClientStub
-//
-// Purpose: Provides network transport for the kvAPI
-//-
+
 #include <cstring>
 #include <string>
 #include <iostream>
@@ -17,8 +13,10 @@
 
 #include "server_stub.hpp"
 
-const uint16_t KV_START_PORT = 3000;
-const uint16_t KV_END_PORT = 3499;
+#define GROUPNUM 8
+
+const uint16_t KV_START_PORT = GROUPNUM * 100 + 2900;
+const uint16_t KV_END_PORT = KV_START_PORT + 100;
 
 
 int main(int argc, char * argv[]){
@@ -37,7 +35,7 @@ int main(int argc, char * argv[]){
         << KV_END_PORT << std::endl;
         exit(1);
     }
-    KVServerStub stub(port);
+    RPNServerStub stub(port);
     stub.spin();
     return 0;
 }
