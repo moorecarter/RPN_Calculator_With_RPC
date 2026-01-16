@@ -23,8 +23,8 @@ using namespace std;
 // 11.End Loop
 
 int main(int argc, char * argv[]){
+
     RPNStack rpn;
-    bool status;
     RPNStack::RPNValueResult result;
 
     //Test Push and Read
@@ -119,7 +119,7 @@ int main(int argc, char * argv[]){
         cerr << "Failed to Read" << endl;
     }
 
-    //Push four values to ensure push works correctly
+    //Push three values to ensure push works correctly
     cout << "Push 2.5" << endl;
     if(!rpn.RPNPush(2.5)){
         cerr << "Failed to Push" << endl;
@@ -136,6 +136,23 @@ int main(int argc, char * argv[]){
     }
 
     //Pop and read to show correctness
+    
+    result = rpn.RPNPop();
+    cout << "Pop Stack" << endl;
+    if(!result.status){
+        cerr << "Failed to Pop" << endl;
+    }
 
+    result = rpn.RPNPop();
+    cout << "Pop Stack" << endl;
+    if(!result.status){
+        cerr << "Failed to Pop" << endl;
+    }
+
+    result = rpn.RPNPop();
+    cout << "Pop Stack" << endl;
+    if(!result.status){
+        cerr << "Failed to Pop" << endl;
+    }
 
 }
