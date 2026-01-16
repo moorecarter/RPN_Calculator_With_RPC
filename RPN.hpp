@@ -1,12 +1,8 @@
 #ifndef __RPN_HPP__
 #define __RPN_HPP__
 
+#include <memory>
 
-
-struct RPNValueResult{
-    bool status;
-    float value;
-};
 enum opcode {Add, Sub, Mult, Div};
 
 class RPNStack{
@@ -14,6 +10,10 @@ class RPNStack{
         class RPNImpl;
         std::unique_ptr<RPNImpl> pImpl;
     public:
+        struct RPNValueResult{
+            bool status;
+            float value;
+        };
         RPNStack();
         bool RPNPush(float value);
         RPNValueResult RPNPop();
