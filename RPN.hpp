@@ -3,38 +3,30 @@
 
 #include <memory>
 
+class RPNStack {
+ private:
+  class RPNImpl;
+  std::unique_ptr<RPNImpl> pImpl;
 
+ public:
+  struct RPNValueResult {
+    bool status;
+    float value;
+  };
+  enum opcode { Nop, Add, Sub, Mult, Div };
+  RPNStack();
+  bool RPNPush(float value);
+  RPNValueResult RPNPop();
+  RPNValueResult RPNRead();
+  bool RPNSwap();
+  RPNValueResult operation(opcode op);
+  void RPNPrintData();
 
-class RPNStack{
-    private:
-        class RPNImpl;
-        std::unique_ptr<RPNImpl> pImpl;
-    public:
-        struct RPNValueResult{
-            bool status;
-            float value;
-        };
-        enum opcode {Nop, Add, Sub, Mult, Div};
-        RPNStack();
-        bool RPNPush(float value);
-        RPNValueResult RPNPop();
-        RPNValueResult RPNRead();
-        bool RPNSwap();
-        RPNValueResult operation(opcode op);
-        void RPNPrintData();
-        //can later remove
-        RPNValueResult add();
-        RPNValueResult mult();
-        RPNValueResult sub();
-        RPNValueResult div();
-        
-       
+  // for client stub only
+  RPNValueResult add();
+  RPNValueResult mult();
+  RPNValueResult sub();
+  RPNValueResult div();
 };
-
-
-
-
-
-
 
 #endif

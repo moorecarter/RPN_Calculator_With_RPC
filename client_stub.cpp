@@ -1,17 +1,22 @@
-// 1. Create a socket
-// 2. Increment the serial number
-// 3. Marshal the metadata and parameters
-// (including which function is being called)
-// 4. Send message to server
-// 5. Begin Loop
-// 6.
-// Receive a message (using recvfrom)
-// 7.
-// Unmarshall the potential result (and metadata)
-// 8.
-// Verify magic and version
-// 9.
-// Verify serial number (back to 5 if incorrect)
-// 10.
-// use the result
-// 11.End Loop
+#include "RPN.hpp"
+#include "RPNImplNet.hpp"
+
+RPNStack::RPNStack() { pImpl = std::make_unique<RPNStack::RPNImpl>(); }
+
+bool RPNStack::RPNPush(float value) { return pImpl->RPNPush(value); };
+RPNStack::RPNValueResult RPNStack::RPNPop() { return pImpl->RPNPop(); };
+RPNStack::RPNValueResult RPNStack::RPNRead() { return pImpl->RPNRead(); };
+bool RPNStack::RPNSwap() { return pImpl->RPNSwap(); };
+
+RPNStack::RPNValueResult RPNStack::add() {
+  return pImpl->operation(RPNStack::opcode::Add);
+};
+RPNStack::RPNValueResult RPNStack::mult() {
+  return pImpl->operation(RPNStack::opcode::Mult);
+};
+RPNStack::RPNValueResult RPNStack::sub() {
+  return pImpl->operation(RPNStack::opcode::Sub);
+};
+RPNStack::RPNValueResult RPNStack::div() {
+  return pImpl->operation(RPNStack::opcode::Div);
+};
