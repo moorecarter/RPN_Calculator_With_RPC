@@ -1,29 +1,3 @@
-
-// 1. Create a socket
-// 2. Bind the socket to an interface and port
-// 3. Begin Loop
-// 4.
-// Receive a message (using recvfrom)
-// 5.
-// Unmarshall the parameters (and metadata)
-// 6.
-// Verify magic, and version
-// 7.
-// Determine which function is called
-// 8.
-// Call the implementation of the function
-// 9.
-// Marshal the result (and metadata)
-// 10.
-// Send the reply to the sender of the received message
-// 11.End Loop
-
-//+
-// File: serverStub.hpp
-//
-// Purpose: takes a protobuf string from a lower level and executes the command inside it.
-//-
-
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <memory>
@@ -53,7 +27,7 @@ public:
         }
     };
 
-    RPNServerStub(uint16_t port);
+    RPNServerStub(uint16_t port );
     ~RPNServerStub();
     void spin();
     

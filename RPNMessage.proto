@@ -1,7 +1,3 @@
-// SHOULD WE COMPRESS THIS??? : "The request and response messages for xx and the request and response
-messages for x."
-
-
 syntax = "proto3";
 
 package RPNMessage;

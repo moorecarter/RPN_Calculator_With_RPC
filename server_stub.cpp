@@ -12,7 +12,7 @@
 
 using namespace std;
 
-RPNServerStub::RPNServerStub(uint16_t port): portnum(port), RNPStore(std::make_unique<RNP>()){
+RPNServerStub::RPNServerStub(uint16_t port): portnum(port), RPNStore(std::make_unique<RPNStack>()){
     
     // get a socket to recieve messges
     if ( (sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) {
@@ -99,40 +99,60 @@ void RPNServerStub::callMethodVersion1(RPNMessage::RPNMessageReq &receivedMsg, R
         if (receivedMsg.has_push_req()){
             cerr << "push message requested" << endl;
 
-            const RPNMessage::RPNMessageReq& pushreq = receivedMsg.push_req();
+            const RPNMessage::RPNPushReq& pushreq = receivedMsg.push_req();
             int value = pushreq.value();
             
             bool pushRes = RPNStore->RPNPush(value);
 
-            RPNMessage::RPNPushResp *pushresp = replyMsg.push_resp();
+            RPNMessage::RPNPushResp *pushresp = replyMsg.mutable_push_resp();
             pushresp->set_status(pushRes);
         }
         else if (receivedMsg.has_pop_req()){
             cerr << "pop message requested" << endl;
-            RPN::RPNValueResult popRes = RPNStore->RPNPop();
+            RPNStack::RPNValueResult popRes = RPNStore->RPNPop();
 
-            RPNMessage::RPNPushResp *popresp = replyMsg.pop_resp();
+            RPNMessage::RPNPopResp *popresp = replyMsg.mutable_pop_resp();
             popresp->set_status(popRes.status);
             popresp->set_value(popRes.value);
         }
         else if (receivedMsg.has_read_req()){
             cerr << "read message requested" << endl;
 
-            RPN::RPNValueResult readRes = RPNStore->RPNRead();
+            RPNStack::RPNValueResult readRes = RPNStore->RPNRead();
 
-            RPNMessage::RPNPushResp *readresp = replyMsg.read_resp();
+            RPNMessage::RPNReadResp *readresp = replyMsg.mutable_read_resp();
             readresp->set_status(readRes.status);
             readresp->set_value(readRes.value);
         }
         else if (receivedMsg.has_op_req()){
             cerr << "operator message requested" << endl;
 
-            const RPNMessage::RPNMessageReq& opreq = receivedMsg.op_req();   
+            const RPNMessage::RPNOperatorReq& opreq = receivedMsg.op_req();   
             const RPNMessage::Operator op = opreq.op();
-            // Not sure if this will translate
-            RPN::RPNValueResult opRes = RPNStore->operation(op);
+            // translate to correct typing
+            RPNStack::opcode opcode;
+            switch (op) {
+                case RPNMessage::NOP:
+                    opcode = RPNStack::opcode::Nop;
+                    break;
+                case RPNMessage::Add:
+                    opcode = RPNStack::opcode::Add;
+                    break;
+                case RPNMessage::Sub:
+                    opcode = RPNStack::opcode::Sub;
+                    break;
+                case RPNMessage::Mult:
+                    opcode = RPNStack::opcode::Mult;
+                    break;
+                case RPNMessage::Div:
+                    opcode = RPNStack::opcode::Div;
+                    break;
+                default:
+                    throw std::invalid_argument("Invalid RPNMessage::Operator");
+            }
+            RPNStack::RPNValueResult opRes = RPNStore->operation(opcode);
 
-            RPNMessage::RPNPushResp *opresp = replyMsg.op_req();
+            RPNMessage::RPNOperatorResp *opresp = replyMsg.mutable_op_resp();
             opresp->set_status(opRes.status);
             opresp->set_value(opRes.value);
         }

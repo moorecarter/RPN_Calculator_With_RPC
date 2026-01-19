@@ -5,10 +5,9 @@
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <unistd.h>
-
 #include <iostream>
 #include <string>
-
+#include <atomic>
 #include "RPN.hpp"
 
 class RPNStack::RPNImpl {

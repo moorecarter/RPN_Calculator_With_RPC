@@ -2,7 +2,7 @@
 #include "RPNImplNet.hpp"
 
 RPNStack::RPNStack() { pImpl = std::make_unique<RPNStack::RPNImpl>(); }
-
+RPNStack::~RPNStack(){};
 bool RPNStack::RPNPush(float value) { return pImpl->RPNPush(value); };
 RPNStack::RPNValueResult RPNStack::RPNPop() { return pImpl->RPNPop(); };
 RPNStack::RPNValueResult RPNStack::RPNRead() { return pImpl->RPNRead(); };

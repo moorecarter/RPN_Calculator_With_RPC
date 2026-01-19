@@ -11,29 +11,29 @@ CXX=c++ -I /usr/local/include
 LDFLAGS=-lprotobuf  -pthread
 endif
 
-SERVER_OBJS=server_main.o RPN.o server_stub.o RPN.pb.o
-CLIENT_OBJS=client_main.o client_stub.o RPN.pb.o RPNImplNet.o
+SERVER_OBJS=server_main.o RPN.o server_stub.o RPNMessage.pb.o
+CLIENT_OBJS=client_main.o client_stub.o RPNMessage.pb.o RPNImplNet.o
 SINGLE_OBJS=client_main.o RPN.o
 
-all: bin/RPNServerClassProto bin/RPNClientClassProto bin/RPNSingleClassProto
+all: bin/RPNServer bin/RPNClient bin/RPNSingle
 
-bin/RPNSingleClassProto:  $(SINGLE_OBJS)
-	$(CXX) -g -o bin/RPNSingleClassProto $(SINGLE_OBJS) $(LDFLAGS)
-bin/RPNServerClassProto:  $(SERVER_OBJS)
-	$(CXX) -g -o bin/RPNServerClassProto $(SERVER_OBJS) $(LDFLAGS)
-bin/RPNClientClassProto:  $(CLIENT_OBJS)
-	$(CXX) -g -o bin/RPNClientClassProto $(CLIENT_OBJS) $(LDFLAGS)
+bin/RPNSingle:  $(SINGLE_OBJS)
+	$(CXX) -g -o bin/RPNSingle $(SINGLE_OBJS) $(LDFLAGS)
+bin/RPNServer:  $(SERVER_OBJS)
+	$(CXX) -g -o bin/RPNServer $(SERVER_OBJS) $(LDFLAGS)
+bin/RPNClient:  $(CLIENT_OBJS)
+	$(CXX) -g -o bin/RPNClient $(CLIENT_OBJS) $(LDFLAGS)
 	
-server_main.o:  server_stub.hpp RPN.pb.h
-server_stub.o:  RPN.hpp RPN.pb.h
+server_main.o:  server_stub.hpp RPNMessage.pb.h
+server_stub.o:  RPN.hpp RPNMessage.pb.h
 client_main.o:  RPN.hpp
 RPN.o: RPN.hpp
-client_stub.o: RPN.hpp RPN.pb.h
-server_stub.o: RPN.hpp RPN.pb.h server_stub.hpp
+client_stub.o: RPN.hpp RPNMessage.pb.h
+server_stub.o: RPN.hpp RPNMessage.pb.h server_stub.hpp
 
 
-RPN.pb.h RPN.pb.cc: RPN.proto
-	protoc --cpp_out=. RPN.proto
+RPNMessage.pb.h RPNMessage.pb.cc: RPNMessage.proto
+	protoc --cpp_out=. RPNMessage.proto
 	
 clean:
-	rm bin/* *.o  RPN.pb.h RPN.pb.cc
+	rm bin/* *.o  RPNMessage.pb.h RPNMessage.pb.cc

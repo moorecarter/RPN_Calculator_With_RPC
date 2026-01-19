@@ -11,6 +11,8 @@ class RPNStack::RPNImpl {
 
 RPNStack::RPNStack() : pImpl(std::make_unique<RPNStack::RPNImpl>()) {};
 
+RPNStack::~RPNStack() = default;
+
 bool RPNStack::RPNPush(float value) {
   for (int i = pImpl->SIZE - 1; i > 0; i--) {
     pImpl->data[i] = pImpl->data[i - 1];

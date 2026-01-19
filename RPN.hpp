@@ -15,6 +15,7 @@ class RPNStack {
   };
   enum opcode { Nop, Add, Sub, Mult, Div };
   RPNStack();
+  ~RPNStack();
   bool RPNPush(float value);
   RPNValueResult RPNPop();
   RPNValueResult RPNRead();
