@@ -1,4 +1,3 @@
-
 #include <cstring>
 #include <string>
 #include <iostream>
@@ -35,7 +34,7 @@ int main(int argc, char * argv[]){
         << KV_END_PORT << std::endl;
         exit(1);
     }
-    RPNServerStub stub(port);
+    KVServerStub stub(port);
     stub.spin();
     return 0;
 }
