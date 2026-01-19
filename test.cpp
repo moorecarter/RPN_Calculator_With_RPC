@@ -9,12 +9,12 @@ int main(){
     c.RPNPush(7.0);
     c.RPNPrintData();
     cout << c.RPNRead().value << endl;
-    c.operation(Add);
+    c.operation(RPNStack::Add);
     cout << c.RPNRead().value << endl;
     c.RPNPush(10.0);
     c.RPNPrintData();
     cout << c.RPNRead().value << endl;
-    c.operation(Mult);
+    c.operation(RPNStack::Mult);
     cout << c.RPNRead().value << endl;
         c.RPNPush(5.0);
     c.RPNPush(7.0);

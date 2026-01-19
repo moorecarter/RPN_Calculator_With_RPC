@@ -1,27 +1,3 @@
-// 1. Create a socket
-// 2. Bind the socket to an interface and port
-// 3. Begin Loop
-// 4.
-// Receive a message (using recvfrom)
-// 5.
-// Unmarshall the parameters (and metadata)
-// 6.
-// Verify magic, and version
-// 7.
-// Determine which function is called
-// 8.
-// Call the implementation of the function
-// 9.
-// Marshal the result (and metadata)
-// 10.
-// Send the reply to the sender of the received message
-// 11.End Loop
-//+
-// File: serverStub.cpp
-//
-// Purpose: takes a protobuf string from a lower level and executes the command inside it.
-//-
-
 #include <cstring>
 #include <string>
 #include <iostream>
@@ -54,7 +30,7 @@ RPNServerStub::RPNServerStub(uint16_t port): portnum(port), RNPStore(std::make_u
     }
 }
 
-void KVServerStub::spin(){
+void RPNServerStub::spin(){
     alive = true;
     
     socklen_t len;
@@ -118,12 +94,6 @@ RPNServerStub::~RPNServerStub(){
     alive = false;
     close(sockfd);
 }
-    // oneof RPNReq {
-    //     RPNPushReq push_req = 4;
-    //     RPNPopReq pop_req = 5;
-    //     RPNReadReq read_req = 6;
-    //     RPNOperatorReq op_req = 7;
-    //     RPNSwapReq swap_req = 8;
 
 void RPNServerStub::callMethodVersion1(RPNMessage::RPNMessageReq &receivedMsg, RPNMessage::RPNMessageResp &replyMsg){
         if (receivedMsg.has_push_req()){

@@ -58,9 +58,7 @@ public:
     void spin();
     
 private:
-    
-    
-    static const uint32_t magic = 'E477';
+    static const uint32_t magic = 'RPN8';
     static const uint32_t version1x = 0x0100;
     
     void callMethodVersion1(RPNMessage::RPNMessageReq &receivedMsg, RPNMessage::RPNMessageResp &replyMsg);
