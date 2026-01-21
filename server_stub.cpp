@@ -100,7 +100,7 @@ void RPNServerStub::callMethodVersion1(RPNMessage::RPNMessageReq &receivedMsg, R
             cerr << "push message requested" << endl;
 
             const RPNMessage::RPNPushReq& pushreq = receivedMsg.push_req();
-            int value = pushreq.value();
+            float value = pushreq.value();
             
             bool pushRes = RPNStore->RPNPush(value);
 
@@ -123,6 +123,14 @@ void RPNServerStub::callMethodVersion1(RPNMessage::RPNMessageReq &receivedMsg, R
             RPNMessage::RPNReadResp *readresp = replyMsg.mutable_read_resp();
             readresp->set_status(readRes.status);
             readresp->set_value(readRes.value);
+        }
+        else if (receivedMsg.has_swap_req()){
+            cerr << "swap message requested" << endl;
+
+            bool swapRes = RPNStore->RPNSwap();
+
+            RPNMessage::RPNSwapResp *swapresp = replyMsg.mutable_swap_resp();
+            swapresp->set_status(swapRes);
         }
         else if (receivedMsg.has_op_req()){
             cerr << "operator message requested" << endl;

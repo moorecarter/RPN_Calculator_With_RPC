@@ -424,9 +424,9 @@ RPNStack::RPNValueResult RPNStack::RPNImpl::operation(opcode op) {
     }
   } while (!gotMessage);
 
-  if (readRespMsg.has_read_resp()) {
-    retVal.status = readRespMsg.read_resp().status();
-    retVal.value = readRespMsg.read_resp().value();
+  if (readRespMsg.has_op_resp()) {
+    retVal.status = readRespMsg.op_resp().status();
+    retVal.value = readRespMsg.op_resp().value();
   } else {
     cerr << "wrong message type" << endl;
     retVal.status = false;
